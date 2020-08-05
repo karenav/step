@@ -7,6 +7,18 @@
 #greeting-container {
   margin-top: 20px;
 }
-body {background-color: powderblue;}
+
+body {background-color: powderblue; font-family: Tahoma, Geneva, sans-serif}
 h1   {color: #ff9999;}
 p    {color: #b30000;}
+
+.button {
+  background-color: rgb(215, 165, 238); /* Green */
+  border: none;
+  color: white;
+  padding: 8px 20px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+}
