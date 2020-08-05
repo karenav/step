@@ -8,10 +8,21 @@
   </head>
   <body>
     <div id="content">
-      <h1>My Portfolio</h1>
+      <script> 
+          let answer = confirm("are you ready?");
+          answer? alert("great!") : alert("that's too bad!");
+      </script>
+      <h1>Karen's Portfolio</h1>
       <p>This is my portfolio.</p>
-      <p>Click here to get a random message:</p>
-      <button onclick="addRandomGreeting()">Hello</button>
+      <p>I'm 24 years old, and I just moved to Tel Aviv.</p>
+      <hr style="height:1px; background-color:#ff9999;">
+      <p>I like to use Google apps!</p>
+      <a href="http://letmegooglethat.com/?q=google+maps">
+            <img src="/images/maps.jpg" alt="my favourite app" style="width:70%; height:70%;"> 
+      </a>
+      <hr style="height:1px; background-color:#ff9999;">
+      <p>Click here to get a random fact about me:</p>
+      <button onclick="addRandomGreeting()">random fact</button>
       <div id="greeting-container"></div>
     </div>
   </body>
