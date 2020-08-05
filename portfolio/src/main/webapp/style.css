@@ -11,6 +11,7 @@
 body {background-color: powderblue; font-family: Tahoma, Geneva, sans-serif}
 h1   {color: #ff9999;}
 p    {color: #b30000;}
+div  {color: #7d55ec; margin: 15px}
 
 .button {
   background-color: rgb(215, 165, 238); /* Green */
