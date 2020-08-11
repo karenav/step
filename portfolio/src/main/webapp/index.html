@@ -8,23 +8,22 @@
   </head>
   <body>
     <div id="content">
-      <script> 
-          let answer = confirm("are you ready?");
-          answer? alert("great!") : alert("that's too bad!");
-      </script>
       <h1>Karen's Portfolio</h1>
-      <p>This is my portfolio.</p>
-      <p>I'm 24 years old, and I just moved to Tel Aviv.</p>
-      <hr style="height:1px; background-color:#ff9999;">
-      <p>I like to use Google apps!</p>
-      <a href="http://letmegooglethat.com/?q=google+maps">
-            <img src="/images/maps.jpg" alt="my favourite app" style="width:70%; height:70%;"> 
+      <p>I'm 24 years old, and I live in Tel Aviv.</p>
+      <hr>
+      <p>this is me!</p>
+      <a href="http://letmegooglethat.com/?q=karen+avner">
+            <img src="/images/karen.jpg" alt="my photo" style="width:70%; height:70%;"> 
       </a>
-      <hr style="height:1px; background-color:#ff9999;">
+      <hr>
       <p>Click here to get a random fact about me:</p>
       <button class="button" onclick="addRandomFact()">random fact</button>
       <br>
-      <div id="fact-container"></div>
+      <p id="fact-container"></p>
+      <hr>
+      <p>I wrote a random story generator! <br>Enter a name: <input id="inputName" type="text" placeholder="Karen"> </p>
+      <button class="button" id="randomStory" onclick=randomizeStory()> randomize me a story! </button>
+      <p id="storyBox"></p>
     </div>
   </body>
 </html>
