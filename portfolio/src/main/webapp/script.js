@@ -30,9 +30,9 @@ function addRandomFact() {
 /**
  * Creates a semi-random story and adds it to the page.
  */
-function randomizeStory(){
+function randomizeStory() {
     var inputFromUser = document.getElementById('inputName').value;
-    var inputName = (inputFromUser=='') ? "Karen" : inputFromUser;
+    var inputName = (inputFromUser == '') ? "Karen" : inputFromUser;
     var objectsList = ["calculator", "adventure book", "arrow", "wand", "ear plugs"]
     var characterList = ["snail", "witch", "king", "rabbit", "lion", "clown"]
     var text = "";
@@ -45,13 +45,13 @@ function randomizeStory(){
         getRandomItemFromArray(objectsList) + 
         ". But it was all worth it, and they lived happily ever after."
 
-    document.getElementById("storyBox").innerHTML=text;
-document.getElementById("storyBox").style.visibility='visible';
+    document.getElementById("storyBox").innerHTML = text;
+document.getElementById("storyBox").style.visibility = 'visible';
 }
 
 /**
-* returns a semi-ramdom item from the given array.
+* Returns a semi-ramdom item from the given array.
 */ 
-function getRandomItemFromArray(array){
-    return array[Math.floor(Math.random()*(array.length))];
+function getRandomItemFromArray(array) {
+    return array[Math.floor(Math.random() * (array.length))];
 }
