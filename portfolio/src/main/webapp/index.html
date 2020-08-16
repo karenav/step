@@ -8,11 +8,22 @@
   </head>
   <body>
     <div id="content">
-      <h1>My Portfolio</h1>
-      <p>This is my portfolio.</p>
-      <p>Click here to get a random message:</p>
-      <button onclick="addRandomGreeting()">Hello</button>
-      <div id="greeting-container"></div>
+      <h1>Karen's Portfolio</h1>
+      <p>I'm 24 years old, and I live in Tel Aviv.</p>
+      <hr>
+      <p>this is me!</p>
+      <a href="http://letmegooglethat.com/?q=karen+avner">
+            <img src="/images/karen.jpg" alt="my photo" style="width:70%; height:70%;"> 
+      </a>
+      <hr>
+      <p>Click here to get a random fact about me:</p>
+      <button class="button" onclick="addRandomFact()">random fact</button>
+      <br>
+      <p id="fact-container"></p>
+      <hr>
+      <p>I wrote a random story generator! <br>Enter a name: <input id="inputName" type="text" placeholder="Karen"> </p>
+      <button class="button" id="randomStory" onclick=randomizeStory()> randomize me a story! </button>
+      <p id="storyBox"></p>
     </div>
   </body>
 </html>
