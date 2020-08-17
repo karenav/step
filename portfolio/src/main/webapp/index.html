@@ -6,20 +6,20 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
-  <body>
+  <body onload="fetchFromData()">
     <div id="content">
       <h1>Karen's Portfolio</h1>
       <p>I'm 24 years old, and I live in Tel Aviv.</p>
       <hr>
-      <p>this is me!</p>
-      <a href="http://letmegooglethat.com/?q=karen+avner">
-            <img src="/images/karen.jpg" alt="my photo" style="width:70%; height:70%;"> 
-      </a>
+      <p> Click here to get a random fact about me: </p>
+      <button class="button" onclick="addRandomFact()"> random fact: </button>
+      <p id="fact-container" style="color:blue"> </p>
       <hr>
-      <p>Click here to get a random fact about me:</p>
-      <button class="button" onclick="addRandomFact()">random fact</button>
-      <br>
-      <p id="fact-container"></p>
+      <p> This is my cute dog! If you went through enough random facts, you already know his name :) </p>
+      <a href="http://letmegooglethat.com/?q=marco+polo">
+            <img src="/images/dog1.jpg" alt="my dog" style="width:30%; height:30%;"> 
+            <img src="/images/dog2.jpg" alt="my dog again" style="width:30%; height:30%;"> 
+      </a>
       <hr>
       <p>I wrote a random story generator! <br>Enter a name: <input id="inputName" type="text" placeholder="Karen"> </p>
       <button class="button" id="randomStory" onclick=randomizeStory()> randomize me a story! </button>

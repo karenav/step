@@ -1,6 +1,10 @@
 body {
   background-color: rgb(196, 238, 243);
   font-family: 'Courier New';
+  margin-left: auto;
+  margin-right: auto;
+  width: 700px;
+  padding: 10px;
 }
 
 h1 {
@@ -13,8 +17,8 @@ p {
 }
 
 hr {
-  height: 1px; 
-  background-color: #ff9999;
+  height: 2px; 
+  background-color: #e4a34e;
 }
 
 button {
@@ -24,29 +28,19 @@ button {
   padding: 8px 20px;
   text-align: center;
   display: inline-block;
-  font-size: 13px;
+  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
-  font-family: Tahoma, Geneva, sans-serif;
 }
 
-input[type="text"] {
+input {
     padding: 5px;
     width: 150px;
 }
 
-#content {
-  margin-left: auto;
-  margin-right: auto;
-  width: 650px;
-  padding: 5px;
-}
-
-#greeting-container {
-  margin-top: 20px;
-}
-
 #storyBox {
-    background-color: rgb(255, 173, 158); 
+    background-color: #9263ac; 
+    color: white;
     visibility: hidden;
     padding: 10px;
     width: 600px;
