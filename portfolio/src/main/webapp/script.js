@@ -61,9 +61,8 @@ function getRandomItemFromArray(array) {
  */
 function fetchFromData() {
     var newDiv = document.createElement('div');
-    fetch('/data').then(response => response.text()).then((newtexT) => {
-      newDiv.innerHTML = "<hr>" + newtexT;
+    fetch('/data').then(response => response.text()).then((newText) => {
+      newDiv.innerHTML = "<hr>" + newText;
     });
     document.body.appendChild(newDiv);
-
 }
