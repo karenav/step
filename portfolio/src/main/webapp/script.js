@@ -55,3 +55,14 @@ document.getElementById("storyBox").style.visibility = 'visible';
 function getRandomItemFromArray(array) {
     return array[Math.floor(Math.random() * (array.length))];
 }
+
+/**
+ * Fetch information from the 'data' servlet.
+ */
+function fetchFromData() {
+    var newDiv = document.createElement('div');
+    fetch('/data').then(response => response.text()).then((newText) => {
+      newDiv.innerHTML = "<hr>" + newText;
+    });
+    document.body.appendChild(newDiv);
+}
