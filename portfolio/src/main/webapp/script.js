@@ -61,8 +61,11 @@ function getRandomItemFromArray(array) {
  */
 function fetchFromData() {
     var newDiv = document.createElement('div');
-    fetch('/data').then(response => response.text()).then((newText) => {
-      newDiv.innerHTML = "<hr>" + newText;
+    fetch('/data').then(response => response.json()).then((jsonIn) => {
+      newDiv.innerHTML = "<hr>";
+      for (let i of jsonIn) {
+        newDiv.innerHTML += "<p>" + i + "</p>";
+      }
     });
     document.body.appendChild(newDiv);
 }
