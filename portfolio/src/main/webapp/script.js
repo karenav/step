@@ -32,11 +32,11 @@ function addRandomFact() {
  * Creates a semi-random story and adds it to the page.
  */
 function randomizeStory() {
-  var inputFromUser = document.getElementById('inputName').value;
-  var inputName = (inputFromUser == '') ? "Karen" : inputFromUser;
-  var objectsList = ["calculator", "adventure book", "arrow", "wand", "ear plugs"];
-  var characterList = ["snail", "witch", "king", "rabbit", "lion", "clown"];
-  var text = "";
+  const inputFromUser = document.getElementById('inputName').value;
+  const inputName = (inputFromUser == '') ? "Karen" : inputFromUser;
+  const objectsList = ["calculator", "adventure book", "arrow", "wand", "ear plugs"];
+  const characterList = ["snail", "witch", "king", "rabbit", "lion", "clown"];
+  let text = "";
 
   text = text + "This is a story about a " + getRandomItemFromArray(characterList) + 
     " called " + inputName + ". " + inputName + " had to find the magical " + 
@@ -61,7 +61,7 @@ function getRandomItemFromArray(array) {
  * Fetch information from the 'data' servlet.
  */
 function fetchFromData() {    
-  var commentsEl = document.getElementById("all-comments");
+  let commentsEl = document.getElementById("all-comments");
   fetch('/data').then(response => response.json()).then((comments) => {
     if (comments.length > 0) {
       commentsEl.style.visibility = 'visible';
