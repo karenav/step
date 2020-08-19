@@ -24,52 +24,52 @@ function addRandomFact() {
 
   // Add it to the page.
   const factContainer = document.getElementById('fact-container');
- git  factContainer.innerText = fact;
+  factContainer.innerText = fact;
+  factContainer.style.visibility = 'visible';
 }
 
 /**
  * Creates a semi-random story and adds it to the page.
  */
 function randomizeStory() {
-    var inputFromUser = document.getElementById('inputName').value;
-    var inputName = (inputFromUser == '') ? "Karen" : inputFromUser;
-    var objectsList = ["calculator", "adventure book", "arrow", "wand", "ear plugs"]
-    var characterList = ["snail", "witch", "king", "rabbit", "lion", "clown"]
-    var text = "";
+  var inputFromUser = document.getElementById('inputName').value;
+  var inputName = (inputFromUser == '') ? "Karen" : inputFromUser;
+  var objectsList = ["calculator", "adventure book", "arrow", "wand", "ear plugs"];
+  var characterList = ["snail", "witch", "king", "rabbit", "lion", "clown"];
+  var text = "";
 
-    text = text + "This is a story about a " + getRandomItemFromArray(characterList) + 
-        " called " + inputName + ". " + inputName + " had to find the magical " + 
-        getRandomItemFromArray(objectsList) + " in order to cure their beloved sick " + 
-        getRandomItemFromArray(characterList) + ". " + inputName + 
-        " sacrifised everything for it, including losing their favourite " + 
-        getRandomItemFromArray(objectsList) + 
-        ". But it was all worth it, and they lived happily ever after."
+  text = text + "This is a story about a " + getRandomItemFromArray(characterList) + 
+    " called " + inputName + ". " + inputName + " had to find the magical " + 
+    getRandomItemFromArray(objectsList) + " in order to cure their beloved sick " + 
+    getRandomItemFromArray(characterList) + ". " + inputName + 
+    " sacrifised everything for it, including losing their favourite " + 
+    getRandomItemFromArray(objectsList) + 
+    ". But it was all worth it, and they lived happily ever after."
 
-    document.getElementById("storyBox").innerHTML = text;
-document.getElementById("storyBox").style.visibility = 'visible';
+  document.getElementById("storyBox").innerHTML = text;
+  document.getElementById("storyBox").style.visibility = 'visible';
 }
 
 /**
 * Returns a semi-ramdom item from the given array.
 */ 
 function getRandomItemFromArray(array) {
-    return array[Math.floor(Math.random() * (array.length))];
+  return array[Math.floor(Math.random() * (array.length))];
 }
 
 /**
  * Fetch information from the 'data' servlet.
  */
 function fetchFromData() {    
-    var commentsEl = document.getElementById("all-comments");
-    fetch('/data').then(response => response.json()).then((comments) => {
-      console.log(comments);
-      if (comments.length > 0) {
-        commentsEl.style.visibility = 'visible';
-      }
-      comments.forEach((singleComment) => {
-        commentsEl.appendChild(createListElement(singleComment));
-      });
+  var commentsEl = document.getElementById("all-comments");
+  fetch('/data').then(response => response.json()).then((comments) => {
+    if (comments.length > 0) {
+      commentsEl.style.visibility = 'visible';
+    }
+    comments.forEach((singleComment) => {
+      commentsEl.appendChild(createListElement(singleComment));
     });
+  });
 }
 
 /** 
