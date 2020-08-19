@@ -24,6 +24,13 @@
       <p>I wrote a random story generator! <br>Enter a name: <input id="inputName" type="text" placeholder="Karen"> </p>
       <button class="button" id="randomStory" onclick=randomizeStory()> randomize me a story! </button>
       <p id="storyBox"></p>
+      <hr>
+      <form action="/data" method="POST">
+        <label for="user-comment">Want to add a comment to my portfolio?</label> <br>
+        <input type="text" id="user-comment" name="user-comment"> <br>
+        <input type="submit" />
+      </form>
+      <ul id="all-comments"></ul>
     </div>
   </body>
 </html>

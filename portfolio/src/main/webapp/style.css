@@ -1,6 +1,6 @@
 body {
   background-color: rgb(196, 238, 243);
-  font-family: 'Courier New';
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
   margin-left: auto;
   margin-right: auto;
   width: 700px;
@@ -9,7 +9,7 @@ body {
 
 h1 {
   color: #ff9999;
-  font-family: Tahoma, Geneva, sans-serif;
+  font-family: "Courier New", Courier, monospace;
 }
 
 p {
@@ -19,6 +19,10 @@ p {
 hr {
   height: 2px; 
   background-color: #e4a34e;
+}
+
+label {
+  color: #b30000;
 }
 
 button {
@@ -34,15 +38,28 @@ button {
 }
 
 input {
-    padding: 5px;
-    width: 150px;
+  padding: 5px;
+  width: 150px;
+  margin: 5px;
+}
+
+#all-comments ul {
+  visibility: hidden;
+}
+
+#all-comments li {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  background-color: rgb(159, 227, 235);
+  color: #8d0404;
+  padding: 5px;
+  margin: 5px;
 }
 
 #storyBox {
-    background-color: #9263ac; 
-    color: white;
-    visibility: hidden;
-    padding: 10px;
-    width: 600px;
-    height: auto;
+  background-color: #9263ac; 
+  color: white;
+  visibility: hidden;
+  padding: 10px;
+  width: 600px;
+  height: auto;
 }

@@ -24,7 +24,7 @@ function addRandomFact() {
 
   // Add it to the page.
   const factContainer = document.getElementById('fact-container');
-  factContainer.innerText = fact;
+ git  factContainer.innerText = fact;
 }
 
 /**
@@ -59,13 +59,24 @@ function getRandomItemFromArray(array) {
 /**
  * Fetch information from the 'data' servlet.
  */
-function fetchFromData() {
-    var newDiv = document.createElement('div');
-    fetch('/data').then(response => response.json()).then((jsonIn) => {
-      newDiv.innerHTML = "<hr>";
-      for (let i of jsonIn) {
-        newDiv.innerHTML += "<p>" + i + "</p>";
+function fetchFromData() {    
+    var commentsEl = document.getElementById("all-comments");
+    fetch('/data').then(response => response.json()).then((comments) => {
+      console.log(comments);
+      if (comments.length > 0) {
+        commentsEl.style.visibility = 'visible';
       }
+      comments.forEach((singleComment) => {
+        commentsEl.appendChild(createListElement(singleComment));
+      });
     });
-    document.body.appendChild(newDiv);
+}
+
+/** 
+ * Creates an <li> element containing text. 
+ */
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
 }
