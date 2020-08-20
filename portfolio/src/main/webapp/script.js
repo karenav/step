@@ -61,11 +61,9 @@ function getRandomItemFromArray(array) {
  * Fetch information from the 'data' servlet.
  */
 function fetchFromData() { 
-      console.log("called");   
   let commentsEl = document.getElementById("all-comments");
   commentsEl.innerHTML = "";
   let commentNum = document.getElementById("comment-num").value;
-      console.log(commentNum);   
   fetch('/data?comments-num=' + commentNum).then(response => response.json()).then((comments) => {
     if (comments.length > 0) {
       commentsEl.style.visibility = 'visible';
@@ -74,6 +72,15 @@ function fetchFromData() {
       commentsEl.appendChild(createListElement(singleComment));
     });
   });
+}
+
+/**
+ * Delete all the current data and then fetch the empty data .
+ */
+function deleteDataAndFetch() { 
+  let commentsEl = document.getElementById("all-comments");
+  commentsEl.innerHTML = "";
+  fetch('/delete-data', {method: "POST"}).then(() => fetchFromData());
 }
 
 /** 

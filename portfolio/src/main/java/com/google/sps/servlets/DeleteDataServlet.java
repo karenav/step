@@ -32,50 +32,17 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 
 
 /** Servlet that returns some example content. */
-@WebServlet("/data")
-public class DataServlet extends HttpServlet {
-
-  private List comments = new ArrayList<String>();
+@WebServlet("/delete-data")
+public class DeleteDataServlet extends HttpServlet {
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // load from datastore
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {    
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
+    Query query = new Query("Comment");
     PreparedQuery results = datastore.prepare(query);
 
-    int commentsMaxNum = new Integer(request.getParameter("comments-num"));
-
-    comments.clear();
     for (Entity entity : results.asIterable()) {
-      if (commentsMaxNum <=0) {
-          break;
-      }
-      String content = (String) entity.getProperty("content");
-      comments.add(content);
-      commentsMaxNum -= 1;
+      datastore.delete(entity.getKey());
     }
-
-    response.setContentType("application/json");
-    response.getWriter().write(new Gson().toJson(comments));
-  }
-
-  @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String newComment = request.getParameter("user-comment");
-    if (newComment.isEmpty()) {
-      System.err.println("Unfortunately, you didn't write anything.");
-      return;
-    }
-    
-    // store in datastore
-    Entity commentEntity = new Entity("Comment");
-    commentEntity.setProperty("content", newComment);
-    commentEntity.setProperty("timestamp", System.currentTimeMillis());
-
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    datastore.put(commentEntity);
-    
-    response.sendRedirect("/index.html");
   }
 }
