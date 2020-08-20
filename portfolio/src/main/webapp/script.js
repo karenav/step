@@ -60,9 +60,13 @@ function getRandomItemFromArray(array) {
 /**
  * Fetch information from the 'data' servlet.
  */
-function fetchFromData() {    
+function fetchFromData() { 
+      console.log("called");   
   let commentsEl = document.getElementById("all-comments");
-  fetch('/data?comments-num=3').then(response => response.json()).then((comments) => {
+  commentsEl.innerHTML = "";
+  let commentNum = document.getElementById("comment-num").value;
+      console.log(commentNum);   
+  fetch('/data?comments-num=' + commentNum).then(response => response.json()).then((comments) => {
     if (comments.length > 0) {
       commentsEl.style.visibility = 'visible';
     }
