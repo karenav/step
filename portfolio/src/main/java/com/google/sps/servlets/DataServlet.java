@@ -26,6 +26,9 @@ import com.google.gson.Gson;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 
 
 /** Servlet that returns some example content. */
@@ -36,6 +39,18 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+    // load from datastore
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
+    PreparedQuery results = datastore.prepare(query);
+
+    comments.clear();
+    for (Entity entity : results.asIterable()) {
+      String content = (String) entity.getProperty("content");
+      comments.add(content);
+    }
+
     response.setContentType("application/json");
     response.getWriter().write(new Gson().toJson(comments));
   }
@@ -48,9 +63,6 @@ public class DataServlet extends HttpServlet {
       return;
     }
     
-    // todo: this is without using datastore, will be removed when we are able to load data from datastore
-    comments.add(newComment);
-
     // store in datastore
     Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("content", newComment);
