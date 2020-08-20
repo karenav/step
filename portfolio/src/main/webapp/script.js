@@ -62,7 +62,7 @@ function getRandomItemFromArray(array) {
  */
 function fetchFromData() {    
   let commentsEl = document.getElementById("all-comments");
-  fetch('/data').then(response => response.json()).then((comments) => {
+  fetch('/data?comments-num=3').then(response => response.json()).then((comments) => {
     if (comments.length > 0) {
       commentsEl.style.visibility = 'visible';
     }

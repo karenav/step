@@ -45,10 +45,16 @@ public class DataServlet extends HttpServlet {
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
 
+    int commentsMaxNum = new Integer(request.getParameter("comments-num"));
+
     comments.clear();
     for (Entity entity : results.asIterable()) {
+      if (commentsMaxNum <=0) {
+          break;
+      }
       String content = (String) entity.getProperty("content");
       comments.add(content);
+      commentsMaxNum -= 1;
     }
 
     response.setContentType("application/json");
