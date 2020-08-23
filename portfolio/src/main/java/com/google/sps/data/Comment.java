@@ -14,19 +14,15 @@
 
 package com.google.sps.data;
 
-import java.util.Date;
-
 /**
  * Class representing a comment that users add to the website.
- *
- * <p>Note: The private variables in this class are converted into JSON.
  */
 public class Comment {
 
   /** The content of this comment. */
   private final String content;
 
-  /** The content of this comment. */
+  /** The user who wrote this comment. */
   private final String user;
 
   public Comment(String content, String user) {
