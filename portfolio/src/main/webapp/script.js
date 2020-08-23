@@ -17,7 +17,7 @@
  */
 function addRandomFact() {
   const facts =
-      ["pet's name: Marco!", 'favourite food: lasagnia!', 'favourite sport: ultimate frisbee!', "favourite color: can't choose just one!"];
+      ["pet's name: Marco!", 'favourite food: lasagnia!', 'favourite sport: ultimate frisbee!', "favourite ice cream flavour: chocolate!"];
 
   // Pick a random fact.
   const fact = facts[Math.floor(Math.random() * facts.length)];
@@ -65,14 +65,24 @@ function fetchFromData() {
   commentsEl.innerHTML = "";
   let commentNum = document.getElementById("comment-num").value;
   fetch('/data?comments-num=' + commentNum).then(response => response.json()).then((comments) => {
-    if (comments.length > 0) {
-      commentsEl.style.visibility = 'visible';
-    }
+    commentsEl.style.visibility = (comments.length > 0 ? 'visible' : 'hidden');
     comments.forEach((singleComment) => {
-      commentsEl.appendChild(createListElement(singleComment));
+      commentsEl.appendChild(createTableElement(singleComment));
     });
   });
 }
+
+/** 
+ * Creates a record in a table. 
+ */
+function createTableElement(comment) {
+  const tableElement = document.createElement('tr');
+  let content = "<td class = 'comment-content'>" + comment.content + "</td>";
+  let user = "<td class = 'comment-user-name'>" + comment.user + "</td>";
+  tableElement.innerHTML = content + user;
+  return tableElement;
+}
+
 
 /**
  * Delete all the current data and then fetch the empty data .
@@ -83,11 +93,3 @@ function deleteDataAndFetch() {
   fetch('/delete-data', {method: "POST"}).then(() => fetchFromData());
 }
 
-/** 
- * Creates an <li> element containing text. 
- */
-function createListElement(text) {
-  const liElement = document.createElement('li');
-  liElement.innerText = text;
-  return liElement;
-}

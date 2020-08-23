@@ -21,22 +21,28 @@
             <img src="/images/dog2.jpg" alt="my dog again" style="width:30%; height:30%;"> 
       </a>
       <hr>
-      <p>I wrote a random story generator! <br>Enter a name: <input id="inputName" type="text" placeholder="Karen"> </p>
+      <p>I wrote a random story generator! <br> Enter a name: <input id="inputName" type="text" placeholder="Karen"> </p>
       <button class="button" id="randomStory" onclick=randomizeStory()> randomize me a story! </button>
       <p id="storyBox" class="storyBox"></p>
       <hr>
       <form action="/data" method="POST">
-        <label for="user-comment">Want to add a comment to my portfolio?</label>
+        <p>Want to add a comment to my portfolio?</p> 
+        <label for="user-comment">comment:</label>
         <input type="text" id="user-comment" name="user-comment">
+        <label for="user-name">user name:</label>
+        <input type="text" id="user-name" name="user-name">
         <input type="submit" class="button"/>
       </form>
-      <label for="comment-num">Max num of comments:</label>
+      <label for="comment-num">Max num of comments to display:</label>
       <select id="comment-num" onchange="fetchFromData()">
         <option value="10">10
         <option value="5">5
         <option value="3">3
       </select>
-      <ul id="all-comments"></ul>
+      <br>
+      <br>
+      <table id="all-comments"></table>
+      <br>
       <button class="button" onclick="deleteDataAndFetch()">want to delete all the comments? click here</button>
     </div>
   </body>

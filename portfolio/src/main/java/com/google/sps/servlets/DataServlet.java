@@ -29,13 +29,13 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
-
+import com.google.sps.data.Comment;
 
 /** Servlet that returns some example content. */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-  private List comments = new ArrayList<String>();
+  private List comments = new ArrayList<Comment>();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -52,7 +52,9 @@ public class DataServlet extends HttpServlet {
           break;
       }
       String content = (String) entity.getProperty("content");
-      comments.add(content);
+      String user = (String) entity.getProperty("user");
+      Comment comment = new Comment(content, user);
+      comments.add(comment);
       commentsMaxNum -= 1;
     }
 
@@ -62,16 +64,19 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String newComment = request.getParameter("user-comment");
-    if (newComment.isEmpty()) {
+    String comment = request.getParameter("user-comment");
+    String userName = request.getParameter("user-name");
+    if (comment.isEmpty()) {
       System.err.println("Unfortunately, you didn't write anything.");
+      response.sendRedirect("/index.html");
       return;
     }
     
     // store in datastore
     Entity commentEntity = new Entity("Comment");
-    commentEntity.setProperty("content", newComment);
+    commentEntity.setProperty("content", comment);
     commentEntity.setProperty("timestamp", System.currentTimeMillis());
+    commentEntity.setProperty("user", userName);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
