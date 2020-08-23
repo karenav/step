@@ -25,44 +25,58 @@ function addRandomFact() {
   // Add it to the page.
   const factContainer = document.getElementById('fact-container');
   factContainer.innerText = fact;
+  factContainer.style.visibility = 'visible';
 }
 
 /**
  * Creates a semi-random story and adds it to the page.
  */
 function randomizeStory() {
-    var inputFromUser = document.getElementById('inputName').value;
-    var inputName = (inputFromUser == '') ? "Karen" : inputFromUser;
-    var objectsList = ["calculator", "adventure book", "arrow", "wand", "ear plugs"]
-    var characterList = ["snail", "witch", "king", "rabbit", "lion", "clown"]
-    var text = "";
+  const inputFromUser = document.getElementById('inputName').value;
+  const inputName = (inputFromUser == '') ? "Karen" : inputFromUser;
+  const objectsList = ["calculator", "adventure book", "arrow", "wand", "ear plugs"];
+  const characterList = ["snail", "witch", "king", "rabbit", "lion", "clown"];
+  let text = "";
 
-    text = text + "This is a story about a " + getRandomItemFromArray(characterList) + 
-        " called " + inputName + ". " + inputName + " had to find the magical " + 
-        getRandomItemFromArray(objectsList) + " in order to cure their beloved sick " + 
-        getRandomItemFromArray(characterList) + ". " + inputName + 
-        " sacrifised everything for it, including losing their favourite " + 
-        getRandomItemFromArray(objectsList) + 
-        ". But it was all worth it, and they lived happily ever after."
+  text = text + "This is a story about a " + getRandomItemFromArray(characterList) + 
+    " called " + inputName + ". " + inputName + " had to find the magical " + 
+    getRandomItemFromArray(objectsList) + " in order to cure their beloved sick " + 
+    getRandomItemFromArray(characterList) + ". " + inputName + 
+    " sacrifised everything for it, including losing their favourite " + 
+    getRandomItemFromArray(objectsList) + 
+    ". But it was all worth it, and they lived happily ever after."
 
-    document.getElementById("storyBox").innerHTML = text;
-document.getElementById("storyBox").style.visibility = 'visible';
+  document.getElementById("storyBox").innerHTML = text;
+  document.getElementById("storyBox").style.visibility = 'visible';
 }
 
 /**
 * Returns a semi-ramdom item from the given array.
 */ 
 function getRandomItemFromArray(array) {
-    return array[Math.floor(Math.random() * (array.length))];
+  return array[Math.floor(Math.random() * (array.length))];
 }
 
 /**
  * Fetch information from the 'data' servlet.
  */
-function fetchFromData() {
-    var newDiv = document.createElement('div');
-    fetch('/data').then(response => response.text()).then((newText) => {
-      newDiv.innerHTML = "<hr>" + newText;
+function fetchFromData() {    
+  let commentsEl = document.getElementById("all-comments");
+  fetch('/data').then(response => response.json()).then((comments) => {
+    if (comments.length > 0) {
+      commentsEl.style.visibility = 'visible';
+    }
+    comments.forEach((singleComment) => {
+      commentsEl.appendChild(createListElement(singleComment));
     });
-    document.body.appendChild(newDiv);
+  });
+}
+
+/** 
+ * Creates an <li> element containing text. 
+ */
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
 }

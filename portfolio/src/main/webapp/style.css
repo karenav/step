@@ -1,6 +1,6 @@
 body {
   background-color: rgb(196, 238, 243);
-  font-family: 'Courier New';
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
   margin-left: auto;
   margin-right: auto;
   width: 700px;
@@ -9,7 +9,7 @@ body {
 
 h1 {
   color: #ff9999;
-  font-family: Tahoma, Geneva, sans-serif;
+  font-family: "Courier New", Courier, monospace;
 }
 
 p {
@@ -21,11 +21,21 @@ hr {
   background-color: #e4a34e;
 }
 
-button {
+label {
+  color: #b30000;
+}
+
+input {
+  padding: 5px;
+  width: 150px;
+  margin: 5px;
+}
+
+.button {
   background-color: rgb(104, 155, 196);
   border: none;
   color: white;
-  padding: 8px 20px;
+  padding: 8px 15px;
   text-align: center;
   display: inline-block;
   font-size: 16px;
@@ -33,16 +43,23 @@ button {
   cursor: pointer;
 }
 
-input {
-    padding: 5px;
-    width: 150px;
+.storyBox {
+  background-color: #9263ac; 
+  color: white;
+  visibility: hidden;
+  padding: 10px;
+  width: 600px;
+  height: auto;
 }
 
-#storyBox {
-    background-color: #9263ac; 
-    color: white;
-    visibility: hidden;
-    padding: 10px;
-    width: 600px;
-    height: auto;
+#all-comments ul {
+  visibility: hidden;
+}
+
+#all-comments li {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  background-color: rgb(159, 227, 235);
+  color: #8d0404;
+  padding: 5px;
+  margin: 5px;
 }

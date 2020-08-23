@@ -19,14 +19,46 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+import com.google.gson.Gson;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
+
+/** Servlet that returns some example content. */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
+  private List comments = new ArrayList<String>();
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html;");
-    response.getWriter().println("<h1>Hello Karen!</h1>");
+    response.setContentType("application/json");
+    response.getWriter().write(new Gson().toJson(comments));
+  }
+
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String newComment = request.getParameter("user-comment");
+    if (newComment.isEmpty()) {
+      System.err.println("Unfortunately, you didn't write anything.");
+      return;
+    }
+    
+    // todo: this is without using datastore, will be removed when we are able to load data from datastore
+    comments.add(newComment);
+
+    // store in datastore
+    Entity commentEntity = new Entity("Comment");
+    commentEntity.setProperty("content", newComment);
+    commentEntity.setProperty("timestamp", System.currentTimeMillis());
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(commentEntity);
+    
+    response.sendRedirect("/index.html");
   }
 }
