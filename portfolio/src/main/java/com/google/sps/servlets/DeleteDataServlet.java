@@ -31,7 +31,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 
 
-/** Servlet that returns some example content. */
+/** Servlet that deletes data from my portfolio. */
 @WebServlet("/delete-data")
 public class DeleteDataServlet extends HttpServlet {
 

@@ -63,8 +63,9 @@ function getRandomItemFromArray(array) {
 function fetchFromData() { 
   let commentsEl = document.getElementById("all-comments");
   commentsEl.innerHTML = "";
-  let commentNum = document.getElementById("comment-num").value;
-  fetch('/data?comments-num=' + commentNum).then(response => response.json()).then((comments) => {
+  const commentNum = document.getElementById("comment-num").value;
+  const commentNumParam = "comments-num";
+  fetch('/data?' + commentNumParam + '=' + commentNum).then(response => response.json()).then((comments) => {
     commentsEl.style.visibility = (comments.length > 0 ? 'visible' : 'hidden');
     comments.forEach((singleComment) => {
       commentsEl.appendChild(createTableElement(singleComment));
@@ -83,13 +84,11 @@ function createTableElement(comment) {
   return tableElement;
 }
 
-
 /**
- * Delete all the current data and then fetch the empty data .
+ * Deletes all the current data and then fetches the empty data .
  */
 function deleteDataAndFetch() { 
   let commentsEl = document.getElementById("all-comments");
   commentsEl.innerHTML = "";
   fetch('/delete-data', {method: "POST"}).then(() => fetchFromData());
 }
-

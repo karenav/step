@@ -31,24 +31,30 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.sps.data.Comment;
 
-/** Servlet that returns some example content. */
+/** Servlet that returns data for my portfolio. */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
   private List comments = new ArrayList<Comment>();
+  private static final int DEFAULT_NUM_COMMENTS = 10;
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // load from datastore
+    // Load from datastore
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
 
-    int commentsMaxNum = new Integer(request.getParameter("comments-num"));
-
+    int commentsMaxNum = DEFAULT_NUM_COMMENTS;
+    try {
+      commentsMaxNum = new Integer(request.getParameter("comments-num"));
+    } catch (NumberFormatException e) {
+      System.err.println("Num of comments wasn't well defined.");
+    }
+    
     comments.clear();
     for (Entity entity : results.asIterable()) {
-      if (commentsMaxNum <=0) {
+      if (commentsMaxNum <= 0) {
           break;
       }
       String content = (String) entity.getProperty("content");
@@ -72,7 +78,7 @@ public class DataServlet extends HttpServlet {
       return;
     }
     
-    // store in datastore
+    // Store in datastore
     Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("content", comment);
     commentEntity.setProperty("timestamp", System.currentTimeMillis());
