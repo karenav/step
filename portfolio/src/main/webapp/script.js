@@ -95,7 +95,6 @@ function deleteDataAndFetch() {
 
 /** Creates a map and adds it to the page. */
 function createMap() {
-  debugger;
   const map = new google.maps.Map(
       document.getElementById('map'),
       {center: {lat: 37.422, lng: -122.084}, zoom: 16}
@@ -108,30 +107,29 @@ google.charts.load('current', {'packages':['corechart']});
 google.charts.setOnLoadCallback(drawChart);
 
 /** Creates a chart and adds it to the page. */
-function drawChart() {
-  const data = new google.visualization.DataTable();
-  
-  data.addColumn('string', 'Flavour');
-  data.addColumn('number', 'Count');
-  
-  data.addRows([
-    ['Chocolate', 50],    
-    ['Cookies', 30],    
-    ['Peanut butter', 20],    
-    ['Lemon', 20],    
-    ['Strawberry', 10]        
-  ]);
+function drawChart() {  
+  fetch('/chart-data').then(response => response.json()).then((wordsCount) => {    
+    const data = new google.visualization.DataTable();        
+    
+    data.addColumn('string', 'Word');    
+    data.addColumn('number', 'Times It Appeared');
+    
+    Object.keys(wordsCount).forEach((word) => {      
+      data.addRow([word, wordsCount[word]]);    
+    });
 
-  const options = {
-    'title': 'My ice-cream flavours',
-    'titleTextStyle': { color: '#8d0404', fontName: "Courier New", fontSize: 14},
-    'width': 400,
-    'height':300,
-    'is3D': true
-  };
+    data.sort({column: 1, desc: true});
+    
+    const options = {      
+      'title': "Most popular words in my portfolio's comments",      
+      'titleTextStyle': { color: '#8d0404', fontName: "Courier New", fontSize: 16},
+      'width': '100%',
+      'height':300,
+      'is3D': true,
+      'backgroundColor': "transparant"
+    };
 
-  const chart = new google.visualization.PieChart(
-    document.getElementById('chart-container')
+    const chart = new google.visualization.PieChart(document.getElementById('chart-container'));    
+    chart.draw(data, options);  }
   );
-  chart.draw(data, options);
 }

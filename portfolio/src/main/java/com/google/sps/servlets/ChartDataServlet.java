@@ -22,6 +22,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import com.google.gson.Gson;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -30,21 +32,40 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 
-/** Servlet that deletes data from my portfolio. */
-@WebServlet("/delete-data")
-public class DeleteDataServlet extends HttpServlet {
+/** Servlet that returns data touse in a chart. */
+@WebServlet("/chart-data")
+public class ChartDataServlet extends HttpServlet {
 
   @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {    
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // Load from datastore
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query query = new Query("Comment");
+    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
+    Map wordsCount = new HashMap<String, Integer>();
 
+    // Go over all the comments
     for (Entity entity : results.asIterable()) {
-      datastore.delete(entity.getKey());
+      String content = (String) entity.getProperty("content");
+
+      // Extract and clean all the words 
+      String[] words = content.split(" |!|\\.|\\,|\\?");
+      for (String word : words) {
+        word = word.trim().toLowerCase();
+        if (word.length() == 0) {
+          continue;
+        }
+        int wordCount = wordsCount.containsKey(word) ? (int) wordsCount.get(word) : 0;
+        wordCount += 1;
+        wordsCount.put(word, wordCount);
+      }
     }
-    
-    response.sendRedirect("/index.html");
+
+    // Extract the results
+    response.setContentType("application/json");
+    response.getWriter().write(new Gson().toJson(wordsCount));
   }
 }
