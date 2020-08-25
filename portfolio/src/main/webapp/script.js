@@ -91,6 +91,7 @@ function deleteDataAndFetch() {
   let commentsEl = document.getElementById("all-comments");
   commentsEl.innerHTML = "";
   fetch('/delete-data', {method: "POST"}).then(() => fetchFromData());
+  window.location.href = '/index.html';
 }
 
 /** Creates a map and adds it to the page. */
