@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <title>Karen's Portfolio</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2RvKUmgsgzAyEten9CPEKwO7SdLQuz40"></script>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="script.js"></script>
   </head>
-  <body onload="fetchFromData()">
+  <body onload="fetchFromData();">
     <div id="content">
       <h1>Karen's Portfolio</h1>
       <p>Welcome to my portfolio!</p>
@@ -46,5 +48,9 @@
       <button class="button" onclick="deleteDataAndFetch()">want to delete all the comments? click here</button>
     </div>
     <hr>
+    <div id="chart-container"></div>
+    <hr>
+    <div id="map"></div>
+    <script> createMap(); </script>
   </body>
 </html>

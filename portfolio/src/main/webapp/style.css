@@ -76,3 +76,8 @@ input {
   width: 100px;
   text-align: middle
 }
+
+#map {
+  height: 400px;
+  width: 100%;
+}

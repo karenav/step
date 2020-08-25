@@ -92,3 +92,46 @@ function deleteDataAndFetch() {
   commentsEl.innerHTML = "";
   fetch('/delete-data', {method: "POST"}).then(() => fetchFromData());
 }
+
+/** Creates a map and adds it to the page. */
+function createMap() {
+  debugger;
+  const map = new google.maps.Map(
+      document.getElementById('map'),
+      {center: {lat: 37.422, lng: -122.084}, zoom: 16}
+  );
+  console.log("in Google maps");
+}
+
+// Loading the google chart preperation
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+/** Creates a chart and adds it to the page. */
+function drawChart() {
+  const data = new google.visualization.DataTable();
+  
+  data.addColumn('string', 'Flavour');
+  data.addColumn('number', 'Count');
+  
+  data.addRows([
+    ['Chocolate', 50],    
+    ['Cookies', 30],    
+    ['Peanut butter', 20],    
+    ['Lemon', 20],    
+    ['Strawberry', 10]        
+  ]);
+
+  const options = {
+    'title': 'My ice-cream flavours',
+    'titleTextStyle': { color: '#8d0404', fontName: "Courier New", fontSize: 14},
+    'width': 400,
+    'height':300,
+    'is3D': true
+  };
+
+  const chart = new google.visualization.PieChart(
+    document.getElementById('chart-container')
+  );
+  chart.draw(data, options);
+}
