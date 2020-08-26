@@ -96,11 +96,35 @@ function deleteDataAndFetch() {
 
 /** Creates a map and adds it to the page. */
 function createMap() {
+  const OFFICE_LOC = {lat: 32.0700, lng: 34.7941};
+  const OFFICE_DESCRIPTION = 'Tel Aviv Google office';
+
+  // The map
   const map = new google.maps.Map(
-      document.getElementById('map'),
-      {center: {lat: 37.422, lng: -122.084}, zoom: 16}
+      document.getElementById('map'), {
+        center: OFFICE_LOC,
+        zoom: 15,
+        mapTypeControlOptions: { mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain']}
+      }
   );
-  console.log("in Google maps");
+
+  // The map's marker
+  const myMarker = new google.maps.Marker({
+    position: OFFICE_LOC,
+    map: map,
+    title: OFFICE_DESCRIPTION,
+    animation: google.maps.Animation.DROP
+  });
+
+  // The marker's info window
+  const infowindow = new google.maps.InfoWindow({
+    content: OFFICE_DESCRIPTION
+  });
+
+  // Adding a listener - when marker is clicked the info window is added
+  myMarker.addListener("click", () => {
+    infowindow.open(map, myMarker);
+  });
 }
 
 // Loading the google chart preperation
@@ -124,10 +148,10 @@ function drawChart() {  
     const options = {      
       'title': "Most popular words in my portfolio's comments",      
       'titleTextStyle': { color: '#8d0404', fontName: "Courier New", fontSize: 16},
-      'width': '100%',
+      'width': '70%',
       'height':300,
       'is3D': true,
-      'backgroundColor': "transparant"
+      'backgroundColor': "none"
     };
 
     const chart = new google.visualization.PieChart(document.getElementById('chart-container'));    
