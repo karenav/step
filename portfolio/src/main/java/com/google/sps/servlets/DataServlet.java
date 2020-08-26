@@ -30,6 +30,8 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.sps.data.Comment;
+import com.google.appengine.api.datastore.FetchOptions;
+
 
 /** Servlet that returns data for my portfolio. */
 @WebServlet("/data")
@@ -42,7 +44,7 @@ public class DataServlet extends HttpServlet {
     // Load from datastore
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
-    PreparedQuery results = datastore.prepare(query);
+    List comments = new ArrayList<Comment>();
 
     int commentsMaxNum = DEFAULT_NUM_COMMENTS;
     try {
@@ -50,17 +52,13 @@ public class DataServlet extends HttpServlet {
     } catch (NumberFormatException e) {
       System.err.println("Num of comments wasn't well defined.");
     }
-    
-    private List comments = new ArrayList<Comment>();
-    for (Entity entity : results.asIterable()) {
-      if (commentsMaxNum <= 0) {
-          break;
-      }
+
+    List<Entity> results = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(commentsMaxNum));
+    for (Entity entity : results) {
       String content = (String) entity.getProperty("content");
       String user = (String) entity.getProperty("user");
       Comment comment = new Comment(content, user);
       comments.add(comment);
-      commentsMaxNum -= 1;
     }
 
     response.setContentType("application/json");
