@@ -35,7 +35,6 @@ import com.google.sps.data.Comment;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-  private List comments = new ArrayList<Comment>();
   private static final int DEFAULT_NUM_COMMENTS = 10;
 
   @Override
@@ -52,7 +51,7 @@ public class DataServlet extends HttpServlet {
       System.err.println("Num of comments wasn't well defined.");
     }
     
-    comments.clear();
+    private List comments = new ArrayList<Comment>();
     for (Entity entity : results.asIterable()) {
       if (commentsMaxNum <= 0) {
           break;
@@ -70,9 +69,9 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String comment = request.getParameter("user-comment");
+    String content = request.getParameter("user-comment");
     String userName = request.getParameter("user-name");
-    if (comment.isEmpty()) {
+    if (content.isEmpty()) {
       System.err.println("Unfortunately, you didn't write anything.");
       response.sendRedirect("/index.html");
       return;
@@ -80,7 +79,7 @@ public class DataServlet extends HttpServlet {
     
     // Store in datastore
     Entity commentEntity = new Entity("Comment");
-    commentEntity.setProperty("content", comment);
+    commentEntity.setProperty("content", content);
     commentEntity.setProperty("timestamp", System.currentTimeMillis());
     commentEntity.setProperty("user", userName);
 

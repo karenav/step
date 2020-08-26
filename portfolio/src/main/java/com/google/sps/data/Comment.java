@@ -17,7 +17,7 @@ package com.google.sps.data;
 /**
  * Class representing a comment that users add to the website.
  */
-public class Comment {
+public final class Comment {
 
   /** The content of this comment. */
   private final String content;

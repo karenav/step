@@ -78,8 +78,8 @@ function fetchFromData() {
  */
 function createTableElement(comment) {
   const tableElement = document.createElement('tr');
-  let content = "<td class = 'comment-content'>" + comment.content + "</td>";
-  let user = "<td class = 'comment-user-name'>" + comment.user + "</td>";
+  const content = "<td class = 'comment-content'>" + comment.content + "</td>";
+  const user = "<td class = 'comment-user-name'>" + comment.user + "</td>";
   tableElement.innerHTML = content + user;
   return tableElement;
 }
