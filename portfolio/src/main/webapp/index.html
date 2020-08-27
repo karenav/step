@@ -2,14 +2,14 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>My Portfolio</title>
+    <title>Karen's Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
   <body onload="fetchFromData()">
     <div id="content">
       <h1>Karen's Portfolio</h1>
-      <p>I'm 24 years old, and I live in Tel Aviv.</p>
+      <p>Welcome to my portfolio!</p>
       <hr>
       <p> Click here to get a random fact about me: </p>
       <button class="button" onclick="addRandomFact()"> random fact: </button>
@@ -17,20 +17,34 @@
       <hr>
       <p> This is my cute dog! If you went through enough random facts, you already know his name :) </p>
       <a href="http://letmegooglethat.com/?q=marco+polo">
-            <img src="/images/dog1.jpg" alt="my dog" style="width:30%; height:30%;"> 
-            <img src="/images/dog2.jpg" alt="my dog again" style="width:30%; height:30%;"> 
+            <img src="/images/dog1.jpg" alt="my dog" style="width:20%; height:20%;"> 
+            <img src="/images/dog2.jpg" alt="my dog again" style="width:20%; height:20%;"> 
       </a>
       <hr>
-      <p>I wrote a random story generator! <br>Enter a name: <input id="inputName" type="text" placeholder="Karen"> </p>
+      <p>I wrote a random story generator! <br> Enter a name: <input id="inputName" type="text" placeholder="Karen"> </p>
       <button class="button" id="randomStory" onclick=randomizeStory()> randomize me a story! </button>
       <p id="storyBox" class="storyBox"></p>
       <hr>
       <form action="/data" method="POST">
-        <label for="user-comment">Want to add a comment to my portfolio?</label> <br>
-        <input type="text" id="user-comment" name="user-comment"> <br>
+        <p>Want to add a comment to my portfolio?</p> 
+        <label for="user-comment">comment:</label>
+        <input type="text" id="user-comment" name="user-comment">
+        <label for="user-name">user name:</label>
+        <input type="text" id="user-name" name="user-name">
         <input type="submit" class="button"/>
       </form>
-      <ul id="all-comments"></ul>
+      <label for="comment-num">Max num of comments to display:</label>
+      <select id="comment-num" onchange="fetchFromData()">
+        <option value="10">10
+        <option value="5">5
+        <option value="3">3
+      </select>
+      <br>
+      <br>
+      <table id="all-comments"></table>
+      <br>
+      <button class="button" onclick="deleteDataAndFetch()">want to delete all the comments? click here</button>
     </div>
+    <hr>
   </body>
 </html>

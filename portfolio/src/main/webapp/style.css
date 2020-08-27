@@ -52,14 +52,27 @@ input {
   height: auto;
 }
 
-#all-comments ul {
+#all-comments table {
   visibility: hidden;
+  border-collapse: separate;
 }
 
-#all-comments li {
-  font-family: "Comic Sans MS", cursive, sans-serif;
+#all-comments .comment-content, .comment-user-name {
   background-color: rgb(159, 227, 235);
   color: #8d0404;
-  padding: 5px;
-  margin: 5px;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  padding: 5px 10px;
+  margin: 10px;
+}
+
+#all-comments .comment-content {
+  font-size: 14px;
+  width: 300px;
+}
+
+#all-comments .comment-user-name {
+  font-style: italic;
+  font-size: 12px;
+  width: 100px;
+  text-align: middle
 }

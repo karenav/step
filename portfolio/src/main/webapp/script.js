@@ -17,7 +17,7 @@
  */
 function addRandomFact() {
   const facts =
-      ["pet's name: Marco!", 'favourite food: lasagnia!', 'favourite sport: ultimate frisbee!', "favourite color: can't choose just one!"];
+      ["pet's name: Marco!", 'favourite food: lasagnia!', 'favourite sport: ultimate frisbee!', "favourite ice cream flavour: chocolate!"];
 
   // Pick a random fact.
   const fact = facts[Math.floor(Math.random() * facts.length)];
@@ -60,23 +60,35 @@ function getRandomItemFromArray(array) {
 /**
  * Fetch information from the 'data' servlet.
  */
-function fetchFromData() {    
+function fetchFromData() { 
   let commentsEl = document.getElementById("all-comments");
-  fetch('/data').then(response => response.json()).then((comments) => {
-    if (comments.length > 0) {
-      commentsEl.style.visibility = 'visible';
-    }
+  commentsEl.innerHTML = "";
+  const commentNum = document.getElementById("comment-num").value;
+  const commentNumParam = "comments-num";
+  fetch('/data?' + commentNumParam + '=' + commentNum).then(response => response.json()).then((comments) => {
+    commentsEl.style.visibility = (comments.length > 0 ? 'visible' : 'hidden');
     comments.forEach((singleComment) => {
-      commentsEl.appendChild(createListElement(singleComment));
+      commentsEl.appendChild(createTableElement(singleComment));
     });
   });
 }
 
 /** 
- * Creates an <li> element containing text. 
+ * Creates a record in a table. 
  */
-function createListElement(text) {
-  const liElement = document.createElement('li');
-  liElement.innerText = text;
-  return liElement;
+function createTableElement(comment) {
+  const tableElement = document.createElement('tr');
+  const content = "<td class = 'comment-content'>" + comment.content + "</td>";
+  const user = "<td class = 'comment-user-name'>" + comment.user + "</td>";
+  tableElement.innerHTML = content + user;
+  return tableElement;
+}
+
+/**
+ * Deletes all the current data and then fetches the empty data .
+ */
+function deleteDataAndFetch() { 
+  let commentsEl = document.getElementById("all-comments");
+  commentsEl.innerHTML = "";
+  fetch('/delete-data', {method: "POST"}).then(() => fetchFromData());
 }
