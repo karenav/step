@@ -53,7 +53,8 @@ public class DataServlet extends HttpServlet {
       System.err.println("Num of comments wasn't well defined.");
     }
 
-    List<Entity> results = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(commentsMaxNum));
+    List<Entity> results = datastore.prepare(query).asList(
+      FetchOptions.Builder.withLimit(commentsMaxNum));
     for (Entity entity : results) {
       String content = (String) entity.getProperty("content");
       String user = (String) entity.getProperty("user");
