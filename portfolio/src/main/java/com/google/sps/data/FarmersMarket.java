@@ -15,16 +15,16 @@
 package com.google.sps.data;
 
 /**
- * Class representing a farmer market that we have information about.
+ * Class representing a farmers' market that we have information about.
  */
-public final class FarmerMarket {
-
+public final class FarmersMarket {
+  // TODO(karenav): make this an AutoValue: https://github.com/google/auto/blob/master/value/userguide/index.md 
   private final String name;
   private final String website;
   private final double lat;
   private final double lng;
 
-  public FarmerMarket(String name, String website, double latitude, double longtitude) {
+  public FarmersMarket(String name, String website, double latitude, double longtitude) {
     this.name = name;
     this.website = (website != "") ? website : "unknown" ;
     this.lat = latitude;

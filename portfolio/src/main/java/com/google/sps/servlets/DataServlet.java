@@ -35,7 +35,7 @@ import com.google.appengine.api.datastore.FetchOptions;
 
 /** Servlet that returns data for my portfolio. */
 @WebServlet("/data")
-public class DataServlet extends HttpServlet {
+public final class DataServlet extends HttpServlet {
 
   private static final int DEFAULT_NUM_COMMENTS = 10;
 

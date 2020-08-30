@@ -135,28 +135,33 @@ function createMap() {
 }
 
 function createMarketMap() {
-    fetch('/farmer-market').then(response => response.json()).then((markets) => {
-    // Create map
-    const map = new google.maps.Map(
-      document.getElementById('map'),
-      {center: {lat: 39.842507, lng: -97.058318}, zoom: 2}
+
+  const CENTER_OF_USA_LAT = 39.842507;
+  const CENTER_OF_USA_LONG = -97.058318;
+  const LOW_ZOOM_LEVEL = 2;
+
+  fetch('/farmers-market').then(response => response.json()).then((markets) => {
+  // Create map
+  const map = new google.maps.Map(
+    document.getElementById('map'),
+    {center: {lat: CENTER_OF_USA_LAT, lng: CENTER_OF_USA_LONG}, zoom: LOW_ZOOM_LEVEL}
+  );
+
+  // Add markers to the map
+  markets.forEach((market) => {
+    const marker = new google.maps.Marker(
+      {position: {lat: market.lat, lng: market.lng}, map: map}
     );
 
-    // Add markers to the map
-    markets.forEach((market) => {
-      const marker = new google.maps.Marker(
-        {position: {lat: market.lat, lng: market.lng}, map: map}
-        );
-
-      const marketContent = "Market's name: " + market.name + ". Website: " + market.website;
-      const infowindow = new google.maps.InfoWindow({
-        content: marketContent
-      });
-
-      marker.addListener("click", () => {
-        infowindow.open(map, marker); 
-      });
+    const marketContent = "Market's name: " + market.name + ". Website: " + market.website;
+    const infoWindow = new google.maps.InfoWindow({
+      content: marketContent
     });
+
+    marker.addListener("click", () => {
+      infoWindow.open(map, marker); 
+    });
+  });
   });
 }
 

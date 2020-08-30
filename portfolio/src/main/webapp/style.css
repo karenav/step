@@ -78,6 +78,8 @@ input {
 }
 
 #map {
-  height: 250px;
-  width: 400px;
+  height: 450px;
+  width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }

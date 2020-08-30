@@ -30,13 +30,13 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
-import com.google.sps.data.FarmerMarket;
+import com.google.sps.data.FarmersMarket;
 
 /** Servlet that returns information about farmer markets. */
-@WebServlet("/farmer-market")
-public class FarmerMarketServlet extends HttpServlet {
+@WebServlet("/farmers-market")
+public final class FarmersMarketServlet extends HttpServlet {
 
-  private List<FarmerMarket> markets;
+  private List<FarmersMarket> markets;
 
   private static final int COL_NUM_OF_MARKET_NAME = 1;
   private static final int COL_NUM_OF_MARKET_WEBSITE = 2; 
@@ -73,7 +73,7 @@ public class FarmerMarketServlet extends HttpServlet {
         double finalLat = Double.parseDouble(lat);
         double finalLng = Double.parseDouble(lng);
 
-        markets.add(new FarmerMarket(name, website, finalLat, finalLng));
+        markets.add(new FarmersMarket(name, website, finalLat, finalLng));
       } catch (NumberFormatException e) {
         System.err.println("Invalid input line - latitude or longitude were not represented as numbers.");
       }

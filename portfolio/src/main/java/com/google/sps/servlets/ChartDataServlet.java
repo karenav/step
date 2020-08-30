@@ -33,17 +33,15 @@ import com.google.appengine.api.datastore.Query.SortDirection;
  * on my portfolio, and the number of times they appeared.
  */
 @WebServlet("/chart-data")
-public class ChartDataServlet extends HttpServlet {
+public final class ChartDataServlet extends HttpServlet {
 
-  private Map wordsCount;
-  
   @Override
-  public void init() {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Load from datastore
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
-    wordsCount = new HashMap<String, Integer>();
+    Map wordsCount = new HashMap<String, Integer>();
 
     // Go over all the comments
     for (Entity entity : results.asIterable()) {
@@ -61,10 +59,7 @@ public class ChartDataServlet extends HttpServlet {
         wordsCount.put(word, wordCount);
       }
     }
-  }
 
-  @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json");
     response.getWriter().write(new Gson().toJson(wordsCount));
   }
