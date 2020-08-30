@@ -101,15 +101,15 @@ function createMap() {
 
   // The map
   const map = new google.maps.Map(
-      document.getElementById('map'), {
-        center: OFFICE_LOC,
-        zoom: 15,
-        mapTypeControlOptions: { mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain']}
-      }
+    document.getElementById('map'), {
+      center: OFFICE_LOC,
+      zoom: 15,
+      mapTypeControlOptions: { mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain']}
+    }
   );
 
-  // The map's marker
-  const myMarker = new google.maps.Marker({
+  // A marker
+  const officeMarker = new google.maps.Marker({
     position: OFFICE_LOC,
     map: map,
     title: OFFICE_DESCRIPTION,
@@ -117,13 +117,46 @@ function createMap() {
   });
 
   // The marker's info window
-  const infowindow = new google.maps.InfoWindow({
+  const infoWindow = new google.maps.InfoWindow({
     content: OFFICE_DESCRIPTION
   });
 
-  // Adding a listener - when marker is clicked the info window is added
-  myMarker.addListener("click", () => {
-    infowindow.open(map, myMarker);
+  // when marker is clicked, the info window is opened
+  officeMarker.addListener("click", () => {
+    infoWindow.open(map, officeMarker);
+  });
+    
+  // When center of the map changes, after 3 seconds we pan back to the marker.
+  map.addListener('center_changed', function() {
+    window.setTimeout(function() {
+      map.panTo(officeMarker.getPosition());
+    }, 3000);
+  });
+}
+
+function createMarketMap() {
+    fetch('/farmer-market').then(response => response.json()).then((markets) => {
+    // Create map
+    const map = new google.maps.Map(
+      document.getElementById('map'),
+      {center: {lat: 39.842507, lng: -97.058318}, zoom: 2}
+    );
+
+    // Add markers to the map
+    markets.forEach((market) => {
+      const marker = new google.maps.Marker(
+        {position: {lat: market.lat, lng: market.lng}, map: map}
+        );
+
+      const marketContent = "Market's name: " + market.name + ". Website: " + market.website;
+      const infowindow = new google.maps.InfoWindow({
+        content: marketContent
+      });
+
+      marker.addListener("click", () => {
+        infowindow.open(map, marker); 
+      });
+    });
   });
 }
 
