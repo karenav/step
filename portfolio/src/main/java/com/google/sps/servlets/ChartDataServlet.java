@@ -22,12 +22,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 import com.google.gson.Gson;
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.sps.data.Comment;
+import com.google.sps.data.CommentLoader;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /** Servlet that returns data to use in a chart: listing the words that appeared in the comments 
  * on my portfolio, and the number of times they appeared.
@@ -37,18 +36,12 @@ public final class ChartDataServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Load from datastore
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
-    PreparedQuery results = datastore.prepare(query);
+    CommentLoader cl = new CommentLoader();
+    List<Comment> comments = cl.getComments();
     Map wordsCount = new HashMap<String, Integer>();
 
-    // Go over all the comments
-    for (Entity entity : results.asIterable()) {
-      String content = (String) entity.getProperty("content");
-
-      // Extract and clean the words from each comment
-      String[] words = content.split(" |!|\\.|\\,|\\?");
+    for (Comment comment : comments) {
+      String[] words = comment.getContent().split(" |!|\\.|\\,|\\?");
       for (String word : words) {
         word = word.trim().toLowerCase();
         if (word.isEmpty()) {
