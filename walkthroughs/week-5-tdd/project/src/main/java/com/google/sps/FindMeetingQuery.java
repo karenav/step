@@ -15,9 +15,54 @@
 package com.google.sps;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.ArrayList;
+import java.lang.Math;
 
 public final class FindMeetingQuery {
+  /**
+   * Finds all the time ranges in which the requested meeting can take place.
+   * TODO(karenav): should we check input validity?
+   *
+   * @param events: the events that are already occuring.
+   * @param request: the request for the new event that we want to create.
+   * @return the possible time ranges for the request.
+   */
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    throw new UnsupportedOperationException("TODO: Implement this method.");
+    List<TimeRange> busyTimeRanges = getBusyTimeRanges(events, request);
+    Collections.sort(busyTimeRanges, TimeRange.ORDER_BY_START);
+    Collection<TimeRange> freeTimeBlocks = new ArrayList<>();
+    int nextFreeStartTime = TimeRange.START_OF_DAY;
+    for (TimeRange currBusyTime : busyTimeRanges) {
+      int currBusyStartTime = currBusyTime.start();
+      if (currBusyStartTime - nextFreeStartTime >= request.getDuration()) {
+        freeTimeBlocks.add(TimeRange.fromStartEnd(nextFreeStartTime, currBusyStartTime, false));
+      }
+      nextFreeStartTime = Math.max(currBusyTime.end(), nextFreeStartTime);
+    }
+    if (TimeRange.END_OF_DAY - nextFreeStartTime >= request.getDuration()) {
+      freeTimeBlocks.add(TimeRange.fromStartEnd(nextFreeStartTime, TimeRange.END_OF_DAY, true));
+    }
+    return freeTimeBlocks;
+  }
+
+  /**
+   * Finds all the time ranges in which people who attend the request are already busy.
+   * @param events: the events that are already occuring.
+   * @param request: the request for the new event that we want to create.
+   * @return the time ranges in which the request attendees are busy.
+   */
+  private List<TimeRange> getBusyTimeRanges(Collection<Event> events, MeetingRequest request) {
+    List<TimeRange> busyTimeRanges = new ArrayList<>();
+    for (Event event : events) {
+      for (String person : event.getAttendees()) {
+        if ((person != null) && request.getAttendees().contains(person)) {
+          busyTimeRanges.add(event.getWhen());
+          break; // Meeting time was added to busyTimeRanges, so no need to check about other attendees
+        }
+      }
+    }
+    return busyTimeRanges;
   }
 }
