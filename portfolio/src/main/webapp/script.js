@@ -94,12 +94,14 @@ function deleteDataAndFetch() {
   window.location.href = '/index.html';
 }
 
-/** Creates a map and adds it to the page. */
+/** 
+ * Creates a map and adds it to the page. 
+ * Notice: This function isn't currently in use, but might be used later.
+ */
 function createMap() {
   const OFFICE_LOC = {lat: 32.0700, lng: 34.7941};
   const OFFICE_DESCRIPTION = 'Tel Aviv Google office';
 
-  // The map
   const map = new google.maps.Map(
     document.getElementById('map'), {
       center: OFFICE_LOC,
@@ -108,7 +110,6 @@ function createMap() {
     }
   );
 
-  // A marker
   const officeMarker = new google.maps.Marker({
     position: OFFICE_LOC,
     map: map,
@@ -116,7 +117,6 @@ function createMap() {
     animation: google.maps.Animation.DROP
   });
 
-  // The marker's info window
   const infoWindow = new google.maps.InfoWindow({
     content: OFFICE_DESCRIPTION
   });
@@ -138,7 +138,7 @@ function createMarketMap() {
 
   const CENTER_OF_USA_LAT = 39.842507;
   const CENTER_OF_USA_LONG = -97.058318;
-  const LOW_ZOOM_LEVEL = 2;
+  const LOW_ZOOM_LEVEL = 4;
 
   fetch('/farmers-market').then(response => response.json()).then((markets) => {
   // Create map
@@ -153,9 +153,11 @@ function createMarketMap() {
       {position: {lat: market.lat, lng: market.lng}, map: map}
     );
 
-    const marketContent = "Market's name: " + market.name + ". Website: " + market.website;
+    const marketContent = "<b>Market's name:</b> " + market.name + ".";
+    const websiteContent = market.website.startsWith("http") ? 
+      (" <b>Website:</b> " + "<a href='" + market.website + "'>" + market.website + "</a>") : "";
     const infoWindow = new google.maps.InfoWindow({
-      content: marketContent
+      content: marketContent + websiteContent
     });
 
     marker.addListener("click", () => {
@@ -165,9 +167,11 @@ function createMarketMap() {
   });
 }
 
-// Loading the google chart preperation
-google.charts.load('current', {'packages':['corechart']});
-google.charts.setOnLoadCallback(drawChart);
+/** Loading the google chart preperation. */
+function initChart() {
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+}
 
 /** Creates a chart and adds it to the page. */
 function drawChart() {  
