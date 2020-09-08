@@ -23,29 +23,20 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 import com.google.gson.Gson;
+import com.google.sps.data.Comment;
+import com.google.sps.data.CommentLoader;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.SortDirection;
-import com.google.sps.data.Comment;
-import com.google.appengine.api.datastore.FetchOptions;
-
 
 /** Servlet that returns data for my portfolio. */
 @WebServlet("/data")
-public class DataServlet extends HttpServlet {
+public final class DataServlet extends HttpServlet {
 
   private static final int DEFAULT_NUM_COMMENTS = 10;
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Load from datastore
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
-    List comments = new ArrayList<Comment>();
-
     int commentsMaxNum = DEFAULT_NUM_COMMENTS;
     try {
       commentsMaxNum = new Integer(request.getParameter("comments-num"));
@@ -53,14 +44,8 @@ public class DataServlet extends HttpServlet {
       System.err.println("Num of comments wasn't well defined.");
     }
 
-    List<Entity> results = datastore.prepare(query).asList(
-      FetchOptions.Builder.withLimit(commentsMaxNum));
-    for (Entity entity : results) {
-      String content = (String) entity.getProperty("content");
-      String user = (String) entity.getProperty("user");
-      Comment comment = new Comment(content, user);
-      comments.add(comment);
-    }
+    CommentLoader cl = new CommentLoader();
+    List<Comment> comments = cl.getComments(commentsMaxNum);
 
     response.setContentType("application/json");
     response.getWriter().write(new Gson().toJson(comments));

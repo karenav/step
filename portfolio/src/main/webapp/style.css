@@ -76,3 +76,10 @@ input {
   width: 100px;
   text-align: middle
 }
+
+#map {
+  height: 450px;
+  width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
