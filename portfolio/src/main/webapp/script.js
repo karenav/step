@@ -91,4 +91,113 @@ function deleteDataAndFetch() {
   let commentsEl = document.getElementById("all-comments");
   commentsEl.innerHTML = "";
   fetch('/delete-data', {method: "POST"}).then(() => fetchFromData());
+  window.location.href = '/index.html';
+}
+
+/** 
+ * Creates a map and adds it to the page. 
+ * Notice: This function isn't currently in use, but might be used later.
+ */
+function createMap() {
+  const OFFICE_LOC = {lat: 32.0700, lng: 34.7941};
+  const OFFICE_DESCRIPTION = 'Tel Aviv Google office';
+
+  const map = new google.maps.Map(
+    document.getElementById('map'), {
+      center: OFFICE_LOC,
+      zoom: 15,
+      mapTypeControlOptions: { mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain']}
+    }
+  );
+
+  const officeMarker = new google.maps.Marker({
+    position: OFFICE_LOC,
+    map: map,
+    title: OFFICE_DESCRIPTION,
+    animation: google.maps.Animation.DROP
+  });
+
+  const infoWindow = new google.maps.InfoWindow({
+    content: OFFICE_DESCRIPTION
+  });
+
+  // when marker is clicked, the info window is opened
+  officeMarker.addListener("click", () => {
+    infoWindow.open(map, officeMarker);
+  });
+    
+  // When center of the map changes, after 3 seconds we pan back to the marker.
+  map.addListener('center_changed', function() {
+    window.setTimeout(function() {
+      map.panTo(officeMarker.getPosition());
+    }, 3000);
+  });
+}
+
+function createMarketMap() {
+
+  const CENTER_OF_USA_LAT = 39.842507;
+  const CENTER_OF_USA_LONG = -97.058318;
+  const LOW_ZOOM_LEVEL = 4;
+
+  fetch('/farmers-market').then(response => response.json()).then((markets) => {
+  // Create map
+  const map = new google.maps.Map(
+    document.getElementById('map'),
+    {center: {lat: CENTER_OF_USA_LAT, lng: CENTER_OF_USA_LONG}, zoom: LOW_ZOOM_LEVEL}
+  );
+
+  // Add markers to the map
+  markets.forEach((market) => {
+    const marker = new google.maps.Marker(
+      {position: {lat: market.lat, lng: market.lng}, map: map}
+    );
+
+    const marketContent = "<b>Market's name:</b> " + market.name + ".";
+    const websiteContent = market.website.startsWith("http") 
+      ? (" <b>Website:</b> " + "<a href='" + market.website + "'>" + market.website + "</a>") 
+      : "";
+    const infoWindow = new google.maps.InfoWindow({
+      content: marketContent + websiteContent
+    });
+
+    marker.addListener("click", () => {
+      infoWindow.open(map, marker); 
+    });
+  });
+  });
+}
+
+/** Loading the google chart preperation. */
+function initChart() {
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+}
+
+/** Creates a chart and adds it to the page. */
+function drawChart() {  
+  fetch('/chart-data').then(response => response.json()).then((wordsCount) => {    
+    const data = new google.visualization.DataTable();        
+    
+    data.addColumn('string', 'Word');    
+    data.addColumn('number', 'Times It Appeared');
+    
+    Object.keys(wordsCount).forEach((word) => {      
+      data.addRow([word, wordsCount[word]]);    
+    });
+
+    data.sort({column: 1, desc: true});
+    
+    const options = {      
+      'title': "Most popular words in my portfolio's comments",      
+      'titleTextStyle': { color: '#8d0404', fontName: "Courier New", fontSize: 16},
+      'width': '70%',
+      'height':300,
+      'is3D': true,
+      'backgroundColor': "none"
+    };
+
+    const chart = new google.visualization.PieChart(document.getElementById('chart-container'));    
+    chart.draw(data, options);  }
+  );
 }

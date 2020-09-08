@@ -33,7 +33,7 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 
 /** Servlet that deletes data from my portfolio. */
 @WebServlet("/delete-data")
-public class DeleteDataServlet extends HttpServlet {
+public final class DeleteDataServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {    
@@ -44,5 +44,7 @@ public class DeleteDataServlet extends HttpServlet {
     for (Entity entity : results.asIterable()) {
       datastore.delete(entity.getKey());
     }
+    
+    response.sendRedirect("/index.html");
   }
 }

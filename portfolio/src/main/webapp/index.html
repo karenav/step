@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <title>Karen's Portfolio</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2RvKUmgsgzAyEten9CPEKwO7SdLQuz40"></script>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="script.js"></script>
   </head>
-  <body onload="fetchFromData()">
+  <body onload="fetchFromData(); initChart();">
     <div id="content">
       <h1>Karen's Portfolio</h1>
       <p>Welcome to my portfolio!</p>
@@ -31,7 +33,7 @@
         <input type="text" id="user-comment" name="user-comment">
         <label for="user-name">user name:</label>
         <input type="text" id="user-name" name="user-name">
-        <input type="submit" class="button"/>
+        <input type="submit" class="button" onclick="drawChart()"/>
       </form>
       <label for="comment-num">Max num of comments to display:</label>
       <select id="comment-num" onchange="fetchFromData()">
@@ -43,8 +45,14 @@
       <br>
       <table id="all-comments"></table>
       <br>
-      <button class="button" onclick="deleteDataAndFetch()">want to delete all the comments? click here</button>
+      <button class="button" onclick="deleteDataAndFetch(); drawChart();">want to delete all the comments? click here</button>
     </div>
     <hr>
+    <div id="chart-container"></div>
+    <hr>
+    <p> This is a map I made, presenting various <b>farmer markets</b> across USA! <br> The data is based on 
+      <a href="https://www.kaggle.com/madeleineferguson/farmers-markets-in-the-united-states">this Kaggle dataset!</a> </p>
+    <div id="map"></div>
+    <script> createMarketMap(); </script>
   </body>
 </html>
