@@ -154,8 +154,9 @@ function createMarketMap() {
     );
 
     const marketContent = "<b>Market's name:</b> " + market.name + ".";
-    const websiteContent = market.website.startsWith("http") ? 
-      (" <b>Website:</b> " + "<a href='" + market.website + "'>" + market.website + "</a>") : "";
+    const websiteContent = market.website.startsWith("http") 
+      ? (" <b>Website:</b> " + "<a href='" + market.website + "'>" + market.website + "</a>") 
+      : "";
     const infoWindow = new google.maps.InfoWindow({
       content: marketContent + websiteContent
     });

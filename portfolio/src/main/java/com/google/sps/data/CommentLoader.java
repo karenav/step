@@ -32,21 +32,19 @@ import com.google.gson.Gson;
  * A utility class for loading comments from datastore.
  */
 public final class CommentLoader {
-  private DatastoreService datastore;
-  private List comments;
-  private Query query;
+  private final DatastoreService datastore;
+  private final Query query;
 
   public CommentLoader() {
     datastore = DatastoreServiceFactory.getDatastoreService();
-    comments = new ArrayList<Comment>();
     query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
   }
 
   public List<Comment> getComments(int numComments) {
+    List comments = new ArrayList<Comment>();
     List<Entity> results = datastore.prepare(query).asList(
       FetchOptions.Builder.withLimit(numComments)
     );
-    comments.clear();
     for (Entity entity : results) {
       String content = (String) entity.getProperty("content");
       String user = (String) entity.getProperty("user");

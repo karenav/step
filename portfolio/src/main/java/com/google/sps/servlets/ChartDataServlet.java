@@ -43,11 +43,13 @@ public final class ChartDataServlet extends HttpServlet {
     List<Comment> comments = cl.getComments();
 
     Map<String, Long> wordsCount =
-      comments.stream().map(c -> c.getContent()).map(  // Take content of each comment)
-        c -> Arrays.asList(c.split(" |!|\\.|\\,|\\?")) // Split each comment to words
-      ).flatMap(List::stream).map(c -> c.trim()).filter(p -> !p.isEmpty()).collect( // Flatten, trim, and filter empty words
-        Collectors.groupingBy(p -> p.toLowerCase(), Collectors.counting()) // Count words appearances   
-      );    
+      comments.stream()
+        .map(c -> c.getContent()) // Take content of each comment
+        .map(c -> Arrays.asList(c.split(" |!|\\.|\\,|\\?"))) // Split each comment to words
+        .flatMap(List::stream)
+        .map(c -> c.trim())
+        .filter(p -> !p.isEmpty())
+        .collect( Collectors.groupingBy(p -> p.toLowerCase(), Collectors.counting())); // Count words appearances 
 
     response.setContentType("application/json");
     response.getWriter().write(new Gson().toJson(wordsCount));
