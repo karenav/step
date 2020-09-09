@@ -22,9 +22,10 @@ import java.util.stream.Stream;
 
 public final class FindMeetingQuery {
   /**
-   * Finds all the time ranges in which the requested meeting can take place.
-   *
-   * @param events: the events that are already occuring.
+   * Finds all the time ranges in which the requested meeting can take place. Tries to find a time
+   * range that is suitable for both regular and optional attendees, and if this attempt fails,
+   * finds a time range that it suitable for all regular attendees.
+   * @param events: the events that are already taking place.
    * @param request: the request for the new event that we want to create.
    * @return the possible time ranges for the request.
    */
@@ -64,12 +65,12 @@ public final class FindMeetingQuery {
     for (TimeRange currBusyTime : busyTimeRanges) {
       int currBusyStartTime = currBusyTime.start();
       if (currBusyStartTime - nextFreeStartTime >= duration) {
-        freeTimeBlocks.add(TimeRange.fromStartEnd(nextFreeStartTime, currBusyStartTime, false));
+        freeTimeBlocks.add(TimeRange.fromStartEnd(nextFreeStartTime, currBusyStartTime, /*inclusive*/ false));
       }
       nextFreeStartTime = Math.max(currBusyTime.end(), nextFreeStartTime);
     }
     if (TimeRange.END_OF_DAY - nextFreeStartTime >= duration) {
-      freeTimeBlocks.add(TimeRange.fromStartEnd(nextFreeStartTime, TimeRange.END_OF_DAY, true));
+      freeTimeBlocks.add(TimeRange.fromStartEnd(nextFreeStartTime, TimeRange.END_OF_DAY, /*inclusive*/ true));
     }
     return freeTimeBlocks;
   }
@@ -84,7 +85,7 @@ public final class FindMeetingQuery {
     List<TimeRange> busyTimeRanges = new ArrayList<>();
     for (Event event : events) {
       for (String person : event.getAttendees()) {
-        if ((person != null) && attendees.contains(person)) {
+        if (person != null && attendees.contains(person)) {
           busyTimeRanges.add(event.getWhen());
           break; // Meeting time is in busyTimeRanges, no need to check other meeting attendees
         }

@@ -275,8 +275,8 @@ public final class FindMeetingQueryTest {
   }
 
   @Test
-  public void ignoreOtionalWithWholeDayMeeting() {
-    // Have an optional attendee who has an all day meeting, so the meeting is sceduled without him.
+  public void ignoreOptionalWithWholeDayMeeting() {
+    // Have an optional attendee who has an all day meeting, so the meeting is scheduled without him.
 
     Collection<Event> events = Arrays.asList(
         new Event("Event 1", TimeRange.fromStartDuration(TIME_0800AM, DURATION_30_MINUTES),
@@ -348,9 +348,8 @@ public final class FindMeetingQueryTest {
   }
 
   @Test
-  public void optionalJustEnoughRoom() {
-    // Have one regular attendee and one optional attendee, so that there is just enough room at
-    // one point in the day to have the meeting, only without the optional attendee.
+  public void onlyOptionalAndHaveEnoughRoom() {
+    // Have two optional attendees, so that there is a time range in which they can meet.
 
     Collection<Event> events = Arrays.asList(
         new Event("Event 1", TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TIME_0830AM, false),
@@ -377,9 +376,8 @@ public final class FindMeetingQueryTest {
   }
 
   @Test
-  public void optionalNotEnoughRoom() {
-    // Have one regular attendee and one optional attendee, so that there is just enough room at
-    // one point in the day to have the meeting, only without the optional attendee.
+  public void onlyOptionalAndDontHaveEnoughRoom() {
+    // Have two optional attendees, so that there is no time range in which they can meet.
 
     Collection<Event> events = Arrays.asList(
             new Event("Event 1", TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TIME_0830AM, false),
